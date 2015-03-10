@@ -23,7 +23,7 @@ ES6 generator that yields a part of the random data each `.next()` call.
 `startRule` is the rule to start the generation with, defaults to the first rule in the grammar.
 
 #### Example
-```
+```js
 // ES6
 let generator = new Generator(grammar);
 for (let value of generator.generate("start")) {
