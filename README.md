@@ -22,6 +22,23 @@ Creates a new generator with the grammar synchronously read from `filename`.
 ES6 generator that yields a part of the random data each `.next()` call.
 `startRule` is the rule to start the generation with, defaults to the first rule in the grammar.
 
+#### Example
+```
+// ES6
+let generator = new Generator(grammar);
+for (let value of generator.generate("start")) {
+  console.log(value);
+}
+
+// ES5
+var generator = new Generator(grammar);
+var it = generator.generate("start");
+var result = it.next();
+while (!result.done) {
+  console.log(result.value);
+  result = it.next();
+}
+```
 
 ## Language
 For now, only an extremely simple grammar is supported:
