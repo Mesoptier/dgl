@@ -1,0 +1,13 @@
+Start
+  5: Function
+  2: Class;
+
+Function
+  : "function " FunctionName "() {\n}";
+
+FunctionName
+  1: "f1"
+  2: "f2"
+  3: "f3";
+
+Class : "class" : "CLASS";
