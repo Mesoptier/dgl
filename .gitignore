@@ -1,3 +1,7 @@
 # Node
 node_modules
 *.log
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
