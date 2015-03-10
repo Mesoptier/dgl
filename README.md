@@ -1,3 +1,5 @@
+**Currently in alpha, expect breaking changes.**
+
 # DGL -  Data Generation Language
 > Generate random data using grammar-like specifications.
 
