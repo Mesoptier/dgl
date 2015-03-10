@@ -40,3 +40,4 @@ Rules start with an identifier and end with a `;`. Each choice in a rule starts 
 Currently supported expressions:
   * `"literal"` or `'literal'` - Simply yields the literal string.
   * `rule` - A reference to another rule to be yielded.
+  * `expression{min,max}` - Repeats `expression` a random amount of times, at least `min` and at most `max` times.
