@@ -17,10 +17,16 @@ WeightedExpression
   = first:WeightedChoice rest:(__ r:WeightedChoice { return r; })* { return { type: "weighted_expr", choices: makeList(first, rest) }; }
 
 WeightedChoice
-  = weight:(Number?) ":" _ expr:SequenceExpression { return { weight: weight, expression: expr }; } 
+  = weight:(Float?) ":" _ expr:SequenceExpression { return { weight: weight, expression: expr }; } 
 
 SequenceExpression
-  = first:PrimaryExpression rest:(__ r:PrimaryExpression { return r; })* { return { type: "sequence_expr", expressions: makeList(first, rest) }; }
+  = first:RepeatedExpression rest:(__ r:RepeatedExpression { return r; })* { return { type: "sequence_expr", expressions: makeList(first, rest) }; }
+
+RepeatedExpression
+  = expr:PrimaryExpression repeat:RepeatedQuantifier? { return repeat == null ? expr : { type: "repeated_expr", min: repeat.min, max: repeat.max, expression: expr }; }
+
+RepeatedQuantifier
+  = "{" _ min:Integer _ "," _ max:Integer _ "}" { return { min: min, max: max }; }
 
 PrimaryExpression
   = literal:Literal { return { type: "literal_expr", literal: literal }; }
@@ -33,7 +39,10 @@ Literal
 IdentifierName
   = str:[a-zA-Z]+ { return str.join(""); }
 
-Number
+Integer
+  = num:([0-9]+) { return parseInt(num.join("")); }
+
+Float
   = num:([0-9]+ "."? [0-9]*) { return parseFloat(num.join("")); }
 
 _

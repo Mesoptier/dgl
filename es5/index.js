@@ -54,13 +54,13 @@ var Generator = exports.Generator = (function () {
       value: regeneratorRuntime.mark(function _handle(node) {
         var _this = this;
 
-        var sum, weights, rand, prev, i, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, expression;
+        var sum, weights, rand, prev, i, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, expression, count;
 
         return regeneratorRuntime.wrap(function _handle$(context$2$0) {
           while (1) switch (context$2$0.prev = context$2$0.next) {
             case 0:
               context$2$0.t1 = node.type;
-              context$2$0.next = context$2$0.t1 === "rule" ? 3 : context$2$0.t1 === "weighted_expr" ? 5 : context$2$0.t1 === "sequence_expr" ? 19 : context$2$0.t1 === "ruleref_expr" ? 45 : context$2$0.t1 === "literal_expr" ? 47 : 50;
+              context$2$0.next = context$2$0.t1 === "rule" ? 3 : context$2$0.t1 === "weighted_expr" ? 5 : context$2$0.t1 === "sequence_expr" ? 19 : context$2$0.t1 === "repeated_expr" ? 45 : context$2$0.t1 === "ruleref_expr" ? 57 : context$2$0.t1 === "literal_expr" ? 59 : 62;
               break;
 
             case 3:
@@ -165,22 +165,58 @@ var Generator = exports.Generator = (function () {
               return context$2$0.abrupt("return");
 
             case 45:
-              return context$2$0.delegateYield(_this._handle(_this.rules[node.name]), "t8", 46);
+              if (!(node.min > node.max)) {
+                context$2$0.next = 47;
+                break;
+              }
 
-            case 46:
-              return context$2$0.abrupt("return");
+              throw new Error("repeated_expr: min cannot be larger than max");
 
             case 47:
-              context$2$0.next = 49;
-              return node.literal;
+              if (!(node.min < 0)) {
+                context$2$0.next = 49;
+                break;
+              }
+
+              throw new Error("repeated_expr: min cannot be smaller than 0");
 
             case 49:
-              return context$2$0.abrupt("return");
-
-            case 50:
-              throw new Error("unhandled node '" + node.type + "'");
+              count = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
+              i = 0;
 
             case 51:
+              if (!(i < count)) {
+                context$2$0.next = 56;
+                break;
+              }
+
+              return context$2$0.delegateYield(_this._handle(node.expression), "t8", 53);
+
+            case 53:
+              i++;
+              context$2$0.next = 51;
+              break;
+
+            case 56:
+              return context$2$0.abrupt("return");
+
+            case 57:
+              return context$2$0.delegateYield(_this._handle(_this.rules[node.name]), "t9", 58);
+
+            case 58:
+              return context$2$0.abrupt("return");
+
+            case 59:
+              context$2$0.next = 61;
+              return node.literal;
+
+            case 61:
+              return context$2$0.abrupt("return");
+
+            case 62:
+              throw new Error("unhandled node '" + node.type + "'");
+
+            case 63:
             case "end":
               return context$2$0.stop();
           }

@@ -55,6 +55,17 @@ export class Generator {
           yield* this._handle(expression);
         return;
 
+      case "repeated_expr":
+        if (node.min > node.max)
+          throw new Error("repeated_expr: min cannot be larger than max");
+        if (node.min < 0)
+          throw new Error("repeated_expr: min cannot be smaller than 0");
+
+        let count = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
+        for (let i = 0; i < count; i++)
+          yield* this._handle(node.expression);
+        return;
+
       case "ruleref_expr":
         yield* this._handle(this.rules[node.name]);
         return;

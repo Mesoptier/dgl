@@ -6,8 +6,37 @@ Function
   : "function " FunctionName "() {\n}";
 
 FunctionName
-  1: "f1"
-  2: "f2"
-  3: "f3";
+  : FunctionVerb FunctionNoun{1,2};
+
+FunctionVerb
+  : "backup"
+  : "bypass"
+  : "hack"
+  : "override"
+  : "compress"
+  : "copy"
+  : "navigate"
+  : "index"
+  : "connect"
+  : "generate"
+  : "quantify"
+  : "calculate"
+  : "synthesize"
+  : "input"
+  : "transmit"
+  : "program"
+  : "reboot"
+  : "parse";
+
+FunctionNoun
+  : "Driver"
+  : "Port"
+  : "Array"
+  : "Test"
+  : "Entity"
+  : "Capacitor"
+  : "System"
+  : "Sensor"
+  : "Interface";
 
 Class : "class" : "CLASS";
