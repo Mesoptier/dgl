@@ -24,3 +24,19 @@ ES6 generator that yields a part of the random data each `.next()` call.
 
 
 ## Language
+For now, only an extremely simple grammar is supported:
+```
+Start
+  2: A
+  1: B;
+  
+A : "a";
+B : "b" A;
+```
+The above will generate `a` 2 out of 3 times, and `ba` 1 out of 3.
+
+Rules start with an identifier and end with a `;`. Each choice in a rule starts with a `:`, which can have a number in front of it indicating the weight of the option (default weight is 1).
+
+Currently supported expressions:
+  * `"literal"` or `'literal'` - Simply yields the literal string.
+  * `rule` - A reference to another rule to be yielded.
