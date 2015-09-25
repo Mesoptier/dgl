@@ -1,4 +1,7 @@
 Start
+  : (Block "\n\n")+;
+
+Block
   5: Function
   2: Class;
 
@@ -6,7 +9,7 @@ Function
   : "function " FunctionName "() {\n}";
 
 FunctionName
-  : FunctionVerb FunctionNoun{1,2};
+  : FunctionVerb FunctionNoun[1,2];
 
 FunctionVerb
   : "backup"
@@ -39,4 +42,23 @@ FunctionNoun
   : "Sensor"
   : "Interface";
 
-Class : "class" : "CLASS";
+Class
+  : "class " ClassName " {\n}";
+
+ClassName
+  : ClassPrefix ClassNoun[1,2] ClassPostfix;
+
+ClassPrefix
+  1: "Abstract"
+  1: "Base"
+  5: "";
+
+ClassNoun
+  : "Loader"
+  : "Something";
+
+ClassPostfix
+  : "Interface"
+  : "Entity"
+  : "Collection"
+  : "Test";

@@ -23,10 +23,17 @@ SequenceExpression
   = first:RepeatedExpression rest:(__ r:RepeatedExpression { return r; })* { return { type: "sequence_expr", expressions: makeList(first, rest) }; }
 
 RepeatedExpression
-  = expr:PrimaryExpression repeat:RepeatedQuantifier? { return repeat == null ? expr : { type: "repeated_expr", min: repeat.min, max: repeat.max, expression: expr }; }
+  = expr:NestedExpression repeat:RepeatedQuantifier? { return repeat == null ? expr : { type: "repeated_expr", min: repeat.min, max: repeat.max, expression: expr }; }
 
 RepeatedQuantifier
-  = "{" _ min:Integer _ "," _ max:Integer _ "}" { return { min: min, max: max }; }
+  = "[" _ min:Integer _ "," _ max:Integer _ "]" { return { min: min, max: max }; }
+  / "[" _ num:Integer _ "]" { return { min: num, max: num }; }
+  / "+" { return { min: 1, max: Infinity }; }
+  / "*" { return { min: 0, max: Infinity }; }
+
+NestedExpression
+  = "(" _ expr:SequenceExpression _ ")" { return expr; }
+  / expr:PrimaryExpression { return expr; }
 
 PrimaryExpression
   = literal:Literal { return { type: "literal_expr", literal: literal }; }

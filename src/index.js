@@ -3,8 +3,8 @@ import fs from "fs";
 import util from "util";
 
 // Debugging
-// parser = fs.readFileSync(__dirname + "/parser.pegjs", "utf8");
-// parser = require("pegjs").buildParser(parser);
+parser = fs.readFileSync(__dirname + "/parser.pegjs", "utf8");
+parser = require("pegjs").buildParser(parser);
 
 export class Generator {
 
@@ -61,8 +61,18 @@ export class Generator {
         if (node.min < 0)
           throw new Error("repeated_expr: min cannot be smaller than 0");
 
-        let count = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
-        for (let i = 0; i < count; i++)
+        let num;
+
+        if (node.min === node.max) {
+          num = node.min;
+        } else if (node.max == Infinity) {
+          let lambda = 0.5;
+          num = Math.round(Math.log(1 - Math.random()) / -lambda) + node.min;
+        } else {
+          num = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
+        }
+
+        for (let i = 0; i < num; i++)
           yield* this._handle(node.expression);
         return;
 
