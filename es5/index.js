@@ -15,8 +15,8 @@ var fs = _interopRequire(require("fs"));
 var util = _interopRequire(require("util"));
 
 // Debugging
-// parser = fs.readFileSync(__dirname + "/parser.pegjs", "utf8");
-// parser = require("pegjs").buildParser(parser);
+parser = fs.readFileSync(__dirname + "/parser.pegjs", "utf8");
+parser = require("pegjs").buildParser(parser);
 
 var Generator = exports.Generator = (function () {
   function Generator(grammar) {
@@ -54,13 +54,13 @@ var Generator = exports.Generator = (function () {
       value: regeneratorRuntime.mark(function _handle(node) {
         var _this = this;
 
-        var sum, weights, rand, prev, i, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, expression, count;
+        var sum, weights, rand, prev, i, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, expression, num, lambda;
 
         return regeneratorRuntime.wrap(function _handle$(context$2$0) {
           while (1) switch (context$2$0.prev = context$2$0.next) {
             case 0:
               context$2$0.t1 = node.type;
-              context$2$0.next = context$2$0.t1 === "rule" ? 3 : context$2$0.t1 === "weighted_expr" ? 5 : context$2$0.t1 === "sequence_expr" ? 19 : context$2$0.t1 === "repeated_expr" ? 45 : context$2$0.t1 === "ruleref_expr" ? 57 : context$2$0.t1 === "literal_expr" ? 59 : 62;
+              context$2$0.next = context$2$0.t1 === "rule" ? 3 : context$2$0.t1 === "weighted_expr" ? 5 : context$2$0.t1 === "sequence_expr" ? 19 : context$2$0.t1 === "repeated_expr" ? 45 : context$2$0.t1 === "ruleref_expr" ? 58 : context$2$0.t1 === "literal_expr" ? 60 : 63;
               break;
 
             case 3:
@@ -181,42 +181,53 @@ var Generator = exports.Generator = (function () {
               throw new Error("repeated_expr: min cannot be smaller than 0");
 
             case 49:
-              count = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
+              num = undefined;
+
+              if (node.min === node.max) {
+                num = node.min;
+              } else if (node.max == Infinity) {
+                lambda = 0.5;
+
+                num = Math.round(Math.log(1 - Math.random()) / -lambda) + node.min;
+              } else {
+                num = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
+              }
+
               i = 0;
 
-            case 51:
-              if (!(i < count)) {
-                context$2$0.next = 56;
+            case 52:
+              if (!(i < num)) {
+                context$2$0.next = 57;
                 break;
               }
 
-              return context$2$0.delegateYield(_this._handle(node.expression), "t8", 53);
+              return context$2$0.delegateYield(_this._handle(node.expression), "t8", 54);
 
-            case 53:
+            case 54:
               i++;
-              context$2$0.next = 51;
+              context$2$0.next = 52;
               break;
 
-            case 56:
-              return context$2$0.abrupt("return");
-
             case 57:
-              return context$2$0.delegateYield(_this._handle(_this.rules[node.name]), "t9", 58);
+              return context$2$0.abrupt("return");
 
             case 58:
-              return context$2$0.abrupt("return");
+              return context$2$0.delegateYield(_this._handle(_this.rules[node.name]), "t9", 59);
 
             case 59:
-              context$2$0.next = 61;
-              return node.literal;
-
-            case 61:
               return context$2$0.abrupt("return");
 
+            case 60:
+              context$2$0.next = 62;
+              return node.literal;
+
             case 62:
-              throw new Error("unhandled node '" + node.type + "'");
+              return context$2$0.abrupt("return");
 
             case 63:
+              throw new Error("unhandled node '" + node.type + "'");
+
+            case 64:
             case "end":
               return context$2$0.stop();
           }
