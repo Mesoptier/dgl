@@ -2,9 +2,6 @@ import parser from "../build/parser";
 import fs from "fs";
 import util from "util";
 
-// Debugging
-parser = fs.readFileSync(__dirname + "/parser.pegjs", "utf8");
-parser = require("pegjs").buildParser(parser);
 
 export class Generator {
 

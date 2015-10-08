@@ -11,7 +11,8 @@
     "gulp-insert": "^0.4.0",
     "gulp-peg": "^0.1.2",
     "gulp-util": "^3.0.4",
-    "pegjs": "^0.8.0"
+    "pegjs": "^0.8.0",
+    "rewire": "^2.3.4"
   },
   "dependencies": {
     "regenerator-runtime-only": "^0.8.16"
