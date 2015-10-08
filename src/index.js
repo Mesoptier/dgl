@@ -2,18 +2,23 @@ import parser from "../build/parser";
 import fs from "fs";
 import util from "util";
 
+const defaultOptions = {
+  lambda: 0.5
+};
 
 export class Generator {
 
-  constructor(grammar) {
+  constructor(grammar, options) {
+    Object.assign(this.options = {}, defaultOptions, options);
+
     this.ast = parser.parse(grammar);
     this.rules = {};
     this.ast.rules.forEach((rule) => { this.rules[rule.name] = rule; });
   }
 
-  static fromFile(file) {
+  static fromFile(file, options) {
     let grammar = fs.readFileSync(file, "utf8");
-    return new this(grammar);
+    return new this(grammar, options);
   }
 
   *generate(startRule) {
@@ -64,7 +69,7 @@ export class Generator {
           num = node.min;
         } else if (node.max == Infinity) {
           // Exponential distribution
-          let lambda = 0.5;
+          let lambda = this.options.lambda;
           num = Math.round(Math.log(1 - Math.random()) / -lambda) + node.min;
         } else {
           // Uniform distribution
