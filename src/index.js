@@ -66,9 +66,11 @@ export class Generator {
         if (node.min === node.max) {
           num = node.min;
         } else if (node.max == Infinity) {
+          // Exponential distribution
           let lambda = 0.5;
           num = Math.round(Math.log(1 - Math.random()) / -lambda) + node.min;
         } else {
+          // Uniform distribution
           num = Math.floor(Math.random() * (node.max - node.min + 1)) + node.min;
         }
 

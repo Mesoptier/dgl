@@ -59,4 +59,7 @@ Rules start with an identifier and end with a `;`. Each choice in a rule starts 
 Currently supported expressions:
   * `"literal"` or `'literal'` - Simply yields the literal string.
   * `rule` - A reference to another rule to be yielded.
-  * `expression{min,max}` - Repeats `expression` a random amount of times, at least `min` and at most `max` times.
+  * `(expression)` - Group expressions together, so you don't have to create an additional rule fpr them.
+  * `expression{num}` - Repeat `expression` exactly `num` times.
+  * `expression{min,max}` - Repeats `expression` a random amount of times, at least `min` and at most `max` times. This is uniformly distributed.
+  * `expression+` or `expression*` - Repeats `expression` a random amount of times, at least 1 or 0 times respectively. This is exponentially distributed.
